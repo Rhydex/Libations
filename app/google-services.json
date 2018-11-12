@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "480972796050",
+    "firebase_url": "https://libations-49b47.firebaseio.com",
+    "project_id": "libations-49b47",
+    "storage_bucket": "libations-49b47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480972796050:android:e106ab8ea47fd9cb",
+        "android_client_info": {
+          "package_name": "com.example.ryden.libations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480972796050-pp5cufsmii5grr17anh4lbfunuoh5m15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ryden.libations",
+            "certificate_hash": "44270b589ab57c5566f2e58c05ba0fdbef090f92"
+          }
+        },
+        {
+          "client_id": "480972796050-0erlgrvdpqbvo4vebk9fabtpuoi854rj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW8fk9vQswYYupaIG2V8mTCQ5UjkKa7iw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480972796050-0erlgrvdpqbvo4vebk9fabtpuoi854rj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
