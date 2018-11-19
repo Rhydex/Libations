@@ -21,6 +21,12 @@
                 android:label="@string/title_activity_user_home"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".AddToDoActivity">
+        </activity>
+        <activity android:name=".AddUserProfile">
+        </activity>
+        <activity android:name=".AddHappyHour">
+        </activity>
     </application>
 
 </manifest>

@@ -18,4 +18,9 @@
     <string name="pic_userPicSelect">User Profile Picture</string>
     <string name="hint_bio">Enter description and bio here...</string>
     <string name="btn_saveButton">Save</string>
+    <string name="add_loc_name">Location Name</string>
+    <string name="add_times">When</string>
+    <string name="add_description">Description</string>
+    <string name="add_address">Address</string>
+    <string name="btn_save_happy">Save</string>
 </resources>
