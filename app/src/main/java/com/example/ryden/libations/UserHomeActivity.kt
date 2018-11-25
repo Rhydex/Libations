@@ -1,6 +1,7 @@
 package com.example.ryden.libations
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_home.*
 import kotlinx.android.synthetic.main.app_bar_user_home.*
 import kotlinx.android.synthetic.main.content_user_home.*
+import kotlinx.android.synthetic.main.card_view.*
 
 const val REQ_CODE_ADD = 1
 const val USER_ADD = "user_add"
@@ -71,6 +73,8 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             loadHappyHourList()
             activity_main_swipe_refresh_layout.isRefreshing = false
         }
+
+
     }
 
     fun loadHappyHourList() {
@@ -86,6 +90,16 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     happyHourList.add(happyHour)
             }
             val adapter = id_recyclerView.adapter
+
+//            id_map_button.setOnClickListener{
+//                val location = id_address.text.toString().trim()
+//                val intent = Intent(
+//                    android.content.Intent.ACTION_VIEW,
+//                    Uri.parse("https://www.google.com/maps/search/?api=1&$location")
+//                )
+//                startActivity(intent)
+//            }
+
             adapter?.notifyDataSetChanged()
         }
     }
@@ -184,4 +198,5 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
 }
