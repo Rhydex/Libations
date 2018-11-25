@@ -2,10 +2,16 @@ package com.example.ryden.libations
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 class MyHappyHour (var locName: String, var times: String, var address: String, var description: String)
     : Parcelable
 {
+    constructor() : this ("", "", "", "")
+
+    @get:Exclude
     var id = ""
 
     constructor(parcel: Parcel) : this(
@@ -38,6 +44,9 @@ class MyHappyHour (var locName: String, var times: String, var address: String, 
             return arrayOfNulls(size)
         }
     }
+
+    override fun toString(): String =
+            "id=$id\nPlace: $locName\nTime: $times"
 
 
 }

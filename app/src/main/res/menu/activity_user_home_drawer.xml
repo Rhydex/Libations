@@ -5,9 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_location"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/nav_location"/>
+                android:id="@+id/nav_signOut"
+                android:icon="@android:drawable/btn_dialog"
+                android:title="@string/nav_signOut"/>
         <item
                 android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_menu_manage"

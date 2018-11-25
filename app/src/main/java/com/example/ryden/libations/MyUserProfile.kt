@@ -2,10 +2,14 @@ package com.example.ryden.libations
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 class MyUserProfile (var userName: String, var userBio: String)
     :Parcelable
 {
+    @get:Exclude
     var id = ""
 
     constructor(parcel: Parcel) : this(

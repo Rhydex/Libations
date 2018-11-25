@@ -23,4 +23,8 @@
     <string name="add_description">Description</string>
     <string name="add_address">Address</string>
     <string name="btn_save_happy">Save</string>
+    <string name="nav_signOut">Log Out</string>
+    <string name="cDes_barPic">Cocktail Picture</string>
+    <string name="btn_cancel_happy">Cancel</string>
+    <string name="btn_cancel_profile">Cancel</string>
 </resources>

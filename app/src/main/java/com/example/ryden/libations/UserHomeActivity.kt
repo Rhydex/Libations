@@ -7,23 +7,30 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_home.*
 import kotlinx.android.synthetic.main.app_bar_user_home.*
+import kotlinx.android.synthetic.main.content_user_home.*
 
 const val REQ_CODE_ADD = 1
 const val USER_ADD = "user_add"
 const val HAPPY_ADD = "happy_add"
+const val HAPPY_COLLECTION = "Happy_Collection"
 
 class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     var mAuth: FirebaseAuth? = null
     var db: FirebaseFirestore? = null
+
+    var happyHourList = ArrayList<MyHappyHour>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +61,33 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        id_recyclerView.layoutManager = LinearLayoutManager(this)
+        id_recyclerView.adapter = HappyHourListAdapter(this, happyHourList)
+
+        loadHappyHourList()
+
+        activity_main_swipe_refresh_layout.setOnRefreshListener {
+            loadHappyHourList()
+            activity_main_swipe_refresh_layout.isRefreshing = false
+        }
+    }
+
+    fun loadHappyHourList() {
+        val userEmail = mAuth?.currentUser?.email
+        if (userEmail == null) return
+
+        db?.collection(HAPPY_COLLECTION)?.get()?.addOnSuccessListener {
+            happyHourList.clear()
+            for (docSnapshot in it) {
+                val happyHour = docSnapshot.toObject(MyHappyHour::class.java)
+                happyHour.id = docSnapshot.id
+                if(happyHour.locName != "")
+                    happyHourList.add(happyHour)
+            }
+            val adapter = id_recyclerView.adapter
+            adapter?.notifyDataSetChanged()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -67,12 +101,13 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         val userProfile = data.getParcelableExtra<MyUserProfile>(USER_ADD)
         val happyHour = data.getParcelableExtra<MyHappyHour>(HAPPY_ADD)
-        val docRef = db?.collection(userEmail)?.document()
+        val userDocRef = db?.collection(userEmail)?.document()
+        val happyDocRef = db?.collection(HAPPY_COLLECTION)?.document()
 
         if(userProfile != null) {
-            docRef?.set(userProfile)
+            userDocRef?.set(userProfile)
                 ?.addOnSuccessListener {
-                    userProfile.id = docRef.id
+                    userProfile.id = userDocRef.id
                     Toast.makeText(
                         this, "Added!",
                         Toast.LENGTH_SHORT
@@ -86,9 +121,9 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 }
         }
         if(happyHour != null) {
-            docRef?.set(happyHour)
+            happyDocRef?.set(happyHour)
                 ?.addOnSuccessListener {
-                    happyHour.id = docRef.id
+                    happyHour.id = happyDocRef.id
                     Toast.makeText(
                         this, "Added!",
                         Toast.LENGTH_SHORT
@@ -107,6 +142,9 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
+            mAuth?.signOut()
+            Toast.makeText(this, "Signed Out!", Toast.LENGTH_SHORT)
+                .show()
             super.onBackPressed()
         }
     }
@@ -130,8 +168,11 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_location -> {
-                // Handle the camera action
+            R.id.nav_signOut -> {
+                mAuth?.signOut()
+                Toast.makeText(this, "Signed Out!", Toast.LENGTH_SHORT)
+                    .show()
+                finish()
             }
             R.id.nav_manage -> {
                 val i = Intent(this, AddUserProfile::class.java)
