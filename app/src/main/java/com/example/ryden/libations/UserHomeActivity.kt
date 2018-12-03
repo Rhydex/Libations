@@ -27,12 +27,17 @@ const val USER_ADD = "user_add"
 const val HAPPY_ADD = "happy_add"
 const val HAPPY_COLLECTION = "Happy_Collection"
 
+
 class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
 
     var mAuth: FirebaseAuth? = null
     var db: FirebaseFirestore? = null
 
     var happyHourList = ArrayList<MyHappyHour>()
+    var userName = "TempUserName"
+    var userBio = "Temp User Bio"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +48,25 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         db = FirebaseFirestore.getInstance()
 
         val currentUser = mAuth?.currentUser
+        val userEmail = currentUser?.email
 
         if (currentUser != null) {
             val headerView = nav_view.getHeaderView(0)
             val emailView = headerView.findViewById<TextView>(R.id.id_nav_email)
+            val userNameView = headerView.findViewById<TextView>(R.id.id_nav_userName)
             emailView.text = currentUser.email
+
+
+            db?.collection(userEmail!!)?.get()?.addOnSuccessListener {
+                for (docSnapshot in it) {
+                    val userProf = docSnapshot.toObject(MyUserProfile::class.java)
+                    userProf.id = docSnapshot.id
+                    if(userProf.userBio != "" || userProf.userName != "")
+                        userName = userProf.userName
+                        userBio = userProf.userBio
+                }
+                userNameView.text = userName
+            }
         }
 
         fab.setOnClickListener {
@@ -68,6 +87,8 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         id_recyclerView.adapter = HappyHourListAdapter(this, happyHourList)
 
         loadHappyHourList()
+
+
 
         activity_main_swipe_refresh_layout.setOnRefreshListener {
             loadHappyHourList()
@@ -90,15 +111,6 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     happyHourList.add(happyHour)
             }
             val adapter = id_recyclerView.adapter
-
-//            id_map_button.setOnClickListener{
-//                val location = id_address.text.toString().trim()
-//                val intent = Intent(
-//                    android.content.Intent.ACTION_VIEW,
-//                    Uri.parse("https://www.google.com/maps/search/?api=1&$location")
-//                )
-//                startActivity(intent)
-//            }
 
             adapter?.notifyDataSetChanged()
         }
@@ -190,6 +202,8 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.nav_manage -> {
                 val i = Intent(this, AddUserProfile::class.java)
+                i.putExtra("userName",userName)
+                i.putExtra("userBio", userBio)
                 startActivityForResult(i, REQ_CODE_ADD)
 
             }

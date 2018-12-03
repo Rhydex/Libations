@@ -3,7 +3,9 @@ package com.example.ryden.libations
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.content.ContextCompat.startActivity
+import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+
+const val REQ_CODE_INFO = 4
 
 class HappyHourListAdapter(val context: Context, var happyHourList: ArrayList<MyHappyHour>)
     : RecyclerView.Adapter<HappyHourListAdapter.ViewHolder>()
@@ -41,6 +45,7 @@ class HappyHourListAdapter(val context: Context, var happyHourList: ArrayList<My
             nameView.text = happyHourList[position].locName
             timeView.text = happyHourList[position].times
             locView.text = happyHourList[position].address
+            var description = happyHourList[position].description
 
             buttonView.setOnClickListener {
                 val location = locView.text.toString().trim()
@@ -51,10 +56,15 @@ class HappyHourListAdapter(val context: Context, var happyHourList: ArrayList<My
                 context.startActivity(intent)
             }
 
-//            itemView.setOnClickListener { v: View ->
-//
-//            }
-            //iconView.setImageResource(icon)
+            itemView.setOnClickListener {
+                val k = Intent(context, HappyHourInformation::class.java)
+                k.putExtra("locName", nameView.text as String)
+                k.putExtra("address", locView.text as String)
+                k.putExtra("times", timeView.text as String)
+                k.putExtra("description", description)
+                context.startActivity(k)
+            }
+
         }
     }
 }

@@ -28,4 +28,5 @@
     <string name="btn_cancel_happy">Cancel</string>
     <string name="btn_cancel_profile">Cancel</string>
     <string name="btn_map">Directions</string>
+    <string name="btn_goBack">Go Back</string>
 </resources>
