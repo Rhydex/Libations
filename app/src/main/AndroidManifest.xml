@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".AddHappyHour">
         </activity>
+        <activity android:name=".HappyHourInformation">
+        </activity>
     </application>
 
 </manifest>

@@ -28,8 +28,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:id="@+id/id_nav_userName"/>
 
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/id_nav_email"/>
+            android:id="@+id/id_nav_email" android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

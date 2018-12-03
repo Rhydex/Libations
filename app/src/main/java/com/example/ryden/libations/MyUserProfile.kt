@@ -9,6 +9,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 class MyUserProfile (var userName: String, var userBio: String)
     :Parcelable
 {
+    constructor() : this ("", "")
     @get:Exclude
     var id = ""
 
